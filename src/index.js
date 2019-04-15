@@ -24,6 +24,7 @@ app.use("/session", routes.session);
 app.use("/users", routes.user);
 app.use("/messages", routes.message);
 app.use("/books", routes.book);
+app.use("/restaurants", routes.restaurant);
 
 const eraseDatabaseOnSync = true;
 
