@@ -23,6 +23,7 @@ app.use(async (req, res, next) => {
 app.use("/session", routes.session);
 app.use("/users", routes.user);
 app.use("/messages", routes.message);
+app.use("/books", routes.book);
 
 const eraseDatabaseOnSync = true;
 
@@ -30,7 +31,8 @@ connectDb().then(async () => {
   if (eraseDatabaseOnSync) {
     await Promise.all([
       models.User.deleteMany({}),
-      models.Message.deleteMany({})
+      models.Message.deleteMany({}),
+      models.Book.deleteMany({})
     ]);
 
     createUsersWithMessages();
@@ -65,6 +67,22 @@ const createUsersWithMessages = async () => {
     user: user2.id
   });
 
+  const book1 = new models.Book({
+    id: 1,
+    title: "The Immortalists",
+    author: "Chloe Benjamin",
+    gender: "female",
+    pubdate: 2018,
+    url:
+      "https://www.goodreads.com/book/show/30288282-the-immortalists?from_search=true",
+    origimage: "../assets/images/immortalists.jpg",
+    image: "../assets/images/scaled/books_immortalists-scale_416.jpg",
+    cloudinary: "v1549999817/books/immortalists.jpg",
+    desc:
+      "A sweeping novel of remarkable ambition and depth, The Immortalists probes the line between destiny and choice, reality and illusion, this world and the next. It is a deeply moving testament to the power of story, the nature of belief, and the unrelenting pull of familial bonds."
+  });
+
+  await book1.save();
   await message1.save();
   await message2.save();
   await message3.save();
